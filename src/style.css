@@ -8,6 +8,7 @@ html,
 body {
   scrollbar-width: none;
   -ms-overflow-style: none;
+  zoom: 1.2;
 }
 
 html::-webkit-scrollbar,
@@ -17,11 +18,150 @@ body::-webkit-scrollbar {
 
 body {
   font-family: "MS Sans Serif", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #008080;
+  background: #000011;
   color: #000000;
   font-size: 11px;
   padding: 8px;
-  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Starfield Background */
+.starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #000011 0%, #000033 50%, #000055 100%);
+}
+
+.star {
+  position: absolute;
+  background: #ffffff;
+  border-radius: 50%;
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.star.small {
+  width: 1px;
+  height: 1px;
+}
+
+.star.medium {
+  width: 2px;
+  height: 2px;
+}
+
+.star.large {
+  width: 3px;
+  height: 3px;
+  box-shadow: 0 0 6px #ffffff, 0 0 10px #aaaaff;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(300px) translateY(300px);
+    opacity: 0;
+  }
+}
+
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: linear-gradient(45deg, #ffffff, transparent);
+  animation: shootingStar 1.5s ease-out infinite;
+}
+
+/* Music Player */
+.music-player {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: #c0c0c0;
+  border: 3px outset #dfdfdf;
+  padding: 8px;
+  z-index: 1000;
+  font-size: 10px;
+  text-align: center;
+}
+
+.music-player-title {
+  background: #000080;
+  color: #ffff00;
+  padding: 2px 6px;
+  margin: -8px -8px 6px -8px;
+  font-weight: bold;
+  font-size: 9px;
+}
+
+.music-btn {
+  background: #c0c0c0;
+  border: 2px outset #ffffff;
+  padding: 4px 12px;
+  font-family: "MS Sans Serif", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 10px;
+  cursor: pointer;
+  margin: 2px;
+}
+
+.music-btn:active {
+  border: 2px inset #808080;
+}
+
+.music-btn.playing {
+  background: #00ff00;
+}
+
+.music-note {
+  display: inline-block;
+  animation: bounce 0.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* ASCII Art Box */
+.ascii-art-box {
+  background: #000000;
+  color: #00ff00;
+  font-family: "Courier New", monospace;
+  font-size: 8px;
+  line-height: 1.1;
+  padding: 8px;
+  border: 2px inset #404040;
+  text-align: center;
+  white-space: pre;
+  margin: 8px 0;
 }
 
 #app {
@@ -109,7 +249,7 @@ body {
   width: 200px;
   height: auto;
   display: block;
-  transform: scale(1.25);
+  transform: scale(0.75);
   transform-origin: bottom right;
 }
 

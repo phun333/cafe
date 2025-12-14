@@ -68,10 +68,10 @@ function getCity(location: string): string {
 
 function renderHome(): void {
   updateSEO(
-    "Baris's Cafe Reviews - Kafe Degerlendirmeleri",
-    "Baris'in kafe degerlendirmeleri. Turkiye'deki kafeleri puanliyorum ve deneyimlerimi paylasiyorum.",
+    "Personal Cafe Reviews - Kafe Degerlendirmeleri",
+    "Benim kafe degerlendirmelerim. Kafeleri puanliyorum ve deneyimlerimi paylasiyorum.",
     "kafe, cafe, kahve, coffee, review, degerlendirme, Turkiye, Ankara, Istanbul",
-    "https://cafe.bayburt.lu"
+    "https://cafe.aliselvet.xyz"
   )
 
   const allCafes = (cafes as Cafe[]).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
@@ -85,16 +85,33 @@ function renderHome(): void {
   const goatImages = Object.values(goatModules).map(url => url.replace('/public', ''))
   const randomStart = Math.floor(Math.random() * goatImages.length)
 
+  // ASCII Art kahve fincanı
+  const coffeeAscii = `
+  (  )   (  )  )
+  ) (   )  (  (
+  ( )  (    ) )
+ ______________
+     |_____________| ___
+     |             |/ _ \\
+     |               | | |
+     |               |_| |
+  ___|             |\\___/
+ /    \\___________/    \\
+ \\_____________________/
+  `;
+
   document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+    <div class="starfield" id="starfield"></div>
     <div class="home-container">
       <div class="home-header">
         <div class="home-title">
-          <span class="title-star">*</span>
-          Baris's Cafe Reviews
-          <span class="title-star">*</span>
+          
+          Personal Cafe Reviews
+         
         </div>
-        <div class="home-subtitle">~ Click a cafe to read my review ~</div>
+        <div class="home-subtitle">~ ⸜(｡˃ ᵕ ˂ )⸝♡ ~</div>
       </div>
+      <div class="ascii-art-box">${coffeeAscii}</div>
       <div class="filter-box">
         <div class="filter-row">
           <label>CITY:</label>
@@ -118,18 +135,37 @@ function renderHome(): void {
         </div>
       </div>
       <div class="home-footer">
-        <marquee scrollamount="2">Welcome to my cafe review page! I rate cafes I visit out of 10!</marquee>
+        <marquee scrollamount="2">Cafe inceleme sayfama hoş geldiniz! 10 üzerinden gittiğim kafeleri degerlendiriyorum!</marquee>
       </div>
     </div>
     <div class="goat-corner">
       <img id="goat-image" src="${goatImages[randomStart]}" alt="Goat" />
     </div>
-    <a href="https://github.com/byigitt/cafe.bayburt.lu" target="_blank" class="github-corner" title="View on GitHub">
-      <svg viewBox="0 0 16 16" width="24" height="24" fill="currentColor">
-        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-      </svg>
-    </a>
   `
+
+  // Yıldızları oluştur
+  const starfield = document.getElementById('starfield')!
+  for (let i = 0; i < 100; i++) {
+    const star = document.createElement('div')
+    const sizes = ['small', 'medium', 'large']
+    const size = sizes[Math.floor(Math.random() * sizes.length)]
+    star.className = `star ${size}`
+    star.style.left = `${Math.random() * 100}%`
+    star.style.top = `${Math.random() * 100}%`
+    star.style.animationDelay = `${Math.random() * 2}s`
+    starfield.appendChild(star)
+  }
+
+  // Ara sıra kayan yıldız ekle
+  setInterval(() => {
+    const shootingStar = document.createElement('div')
+    shootingStar.className = 'shooting-star'
+    shootingStar.style.left = `${Math.random() * 50}%`
+    shootingStar.style.top = `${Math.random() * 50}%`
+    starfield.appendChild(shootingStar)
+    setTimeout(() => shootingStar.remove(), 1500)
+  }, 3000)
+
 
   const cityFilter = document.getElementById('city-filter') as HTMLSelectElement
   const cafeFilter = document.getElementById('cafe-filter') as HTMLSelectElement
@@ -155,10 +191,10 @@ function renderHome(): void {
 function renderCafePage(cafe: Cafe): void {
   const city = getCity(cafe.location)
   updateSEO(
-    `${cafe.name} - ${cafe.rating}/10 | Baris's Cafe Reviews`,
+    `${cafe.name} - ${cafe.rating}/10 | Personal Cafe Reviews`,
     `${cafe.name} kafe degerlendirmesi. ${cafe.location} - ${cafe.rating}/10 puan.`,
     `${cafe.name}, ${city}, kafe, cafe, kahve, coffee, review, degerlendirme, ${cafe.rating}/10`,
-    `https://cafe.bayburt.lu/${cafe.slug}`
+    `https://cafe.aliselvet.xyz/${cafe.slug}`
   )
 
   const visitorCount = Math.floor(Math.random() * 9000) + 1000
@@ -181,15 +217,11 @@ function renderCafePage(cafe: Cafe): void {
             <span>UNDER<br>CONSTRUCTION</span>
             <div class="construction-text blink">!</div>
           </div>
-          <div class="guestbook-box">
-            <div class="pixel-coffee"></div>
-            <span>Sign my<br>guestbook!</span>
-          </div>
         </td>
         <td class="main-content">
           <div class="page-title">
             <div class="title-decoration">*~*~*~*~*</div>
-            <h1>Baris's Cafe Reviews</h1>
+            <h1>Personal Cafe Reviews</h1>
             <div class="title-decoration">*~*~*~*~*</div>
           </div>
           
@@ -224,31 +256,25 @@ function renderCafePage(cafe: Cafe): void {
           <div class="divider">=-=-=-=-=-=-=-=-=-=-=-=-=-=</div>
 
           <div class="footer-text">
-            <marquee behavior="alternate" scrollamount="2">Thanks for reading! Come back soon!</marquee>
+            <marquee behavior="alternate" scrollamount="2">Okuduğunuz için teşekkür ederim!</marquee>
           </div>
         </td>
       </tr>
     </table>
 
     <div class="bottom-bar">
-      <span>Best viewed with Netscape Navigator 4.0 @ 800x600</span>
-      <span class="blink">|</span>
-      <span>(c) ${new Date().getFullYear()} cafe.bayburt.lu</span>
+      <span>(c) ${new Date().getFullYear()} cafe.aliselvet.xyz</span>
     </div>
-    <a href="https://github.com/byigitt/cafe.bayburt.lu" target="_blank" class="github-corner" title="View on GitHub">
-      <svg viewBox="0 0 16 16" width="24" height="24" fill="currentColor">
-        <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
-      </svg>
-    </a>
+
   `
 }
 
 function render404(): void {
   updateSEO(
-    "404 - Sayfa Bulunamadi | Baris's Cafe Reviews",
+    "404 - Sayfa Bulunamadi | Personal Cafe Reviews",
     "Aradiginiz kafe bulunamadi.",
     "404, bulunamadi, not found",
-    "https://cafe.bayburt.lu/404"
+    "https://cafe.aliselvet.xyz/404"
   )
 
   document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
