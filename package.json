@@ -7,7 +7,8 @@
     "content": "node scripts/build-content.js",
     "dev": "pnpm content && vite",
     "build": "pnpm content && tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npx serve dist -l 3000"
   },
   "devDependencies": {
     "typescript": "~5.9.3",
